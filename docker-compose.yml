@@ -1,0 +1,71 @@
+# prettier-ignore
+version: '3'
+services:
+  # Optionally you can run api service to simulate Production env
+  # api: 
+  #   container_name: tlc-api
+  #   build: .
+  #   image: tlc/api
+  #   restart: always
+  #   ports: 
+  #     - 8001:8001
+  #   environment:
+  #     NODE_ENV: production
+  #     APP_PORT: 8001
+  #     DB_HOST: db
+  #     DB_PORT: 5432
+  #     DB_USER: postgres
+  #     DB_PASS: postgres
+  #     DB_NAME: tlc
+  #     CACHE_HOST: cache
+  #     CACHE_PORT: 6379
+  #     CACHE_PASS: tlcsuperpassword
+  #     ELASTIC_SEARCH_URL: http://elasticsearch:9200
+  #     JWT_SECRET: secretkey
+  #     SENDGRID_API_KEY: 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
+  #   depends_on: 
+  #     - 'db'
+  #     - 'cache'
+  #     - 'elasticsearch'
+  db:
+    container_name: tlc-postgres
+    image: postgres:11
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: tlc
+  cache:
+    container_name: tlc-redis
+    image: redis:5-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+  elasticsearch:
+    container_name: tlc-elasticsearch
+    image: elasticsearch:7.6.1
+    ports:
+      - '9200:9200'
+    environment:
+      - node.name=elasticsearch
+      - discovery.type=single-node
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=elasticsearch
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+  # Optionally run the kibana service to see Elastic search indices
+  # kibana:
+  #   container_name: tlc-kibana
+  #   image: kibana:7.6.1
+  #   ports:
+  #     - '5601:5601'
+  #   environment:
+  #     ELASTICSEARCH_URL: 'http://elasticsearch:9200'
+  #   depends_on: 
+  #     - elasticsearch

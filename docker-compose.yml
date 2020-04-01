@@ -43,6 +43,12 @@ services:
     restart: always
     ports:
       - '6379:6379'
+  queue:
+    container_name: tlc-queue
+    image: redis:5-alpine
+    restart: always
+    ports:
+      - '6309:6379'
   elasticsearch:
     container_name: tlc-elasticsearch
     image: elasticsearch:7.6.1

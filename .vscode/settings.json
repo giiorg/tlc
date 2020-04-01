@@ -1,4 +1,8 @@
 {
   "editor.formatOnSave": true,
-  "editor.tabSize": 2
+  "editor.tabSize": 2,
+  "files.associations": {
+    "[Dd]ockerfile*": "dockerfile",
+    "docker-compose*": "yaml"
+  }
 }

@@ -9,6 +9,7 @@ import { JwtService } from './jwt.service';
 import { MailerService } from './mailer.service';
 import { SearchService } from '../user/search.service';
 import logger from '../../core/logger';
+import { emailsQueue } from '../../core/queues';
 
 @Service()
 export class AuthService {
@@ -94,8 +95,20 @@ export class AuthService {
 
     logger.info(`Email verification token: ${verificationToken}`);
 
-    await this.mailerService.sendVerification(user, verificationToken);
+    await emailsQueue.add(
+      'send-verification-email',
+      { user, verificationToken },
+      {
+        attempts: 5,
+        // removeOnComplete: true,
+        backoff: {
+          type: 'fixed',
+          delay: 120000, // two minutes
+        },
+      },
+    );
 
+    // TODO: This also can be enqueued
     this.searchService.index('users', user);
 
     return true;

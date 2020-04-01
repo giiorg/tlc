@@ -2,7 +2,7 @@
 
 ## Installation & Running
 
-This API uses several extra services for persistent layer, caching and search indexing.
+This API uses several extra services for persistent layer, caching, queueing and search indexing.
 
 You can set up development environment with docker-compose.yml file that ships with this repository.
 
@@ -20,4 +20,7 @@ $ yarn install
 
 # Start API in development mode
 $ yarn dev
+
+# Start worker(s) in development mode
+$ yarn workers
 ```

@@ -1,8 +1,8 @@
-import redis from 'redis';
+import Redis from 'ioredis';
 
 import logger from './logger';
 
-const redisClient = redis.createClient({
+const redisClient = new Redis({
   host: process.env.REDIS_HOST,
   port: parseInt(process.env.REDIS_PORT, 10),
 });

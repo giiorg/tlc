@@ -12,21 +12,20 @@ export class UserService {
 
   async getUser(id: string) {
     try {
-      const cachedUser = await this.cacheService.get('users', id);
+      const cachedUser = await this.cacheService.get(id);
 
       if (cachedUser) {
         return cachedUser;
       }
 
       const user = await this.userRepository.findById(id);
-
       if (!user) {
         throw new Error(
           'Access denied! You need to be authorized to perform this action!',
         );
       }
 
-      this.cacheService.set('users', id, user);
+      this.cacheService.set(id, user);
 
       return user;
     } catch (err) {

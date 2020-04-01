@@ -3,12 +3,14 @@ import Redis from 'ioredis';
 import logger from './logger';
 
 const redisClient = new Redis({
-  host: process.env.REDIS_HOST,
-  port: parseInt(process.env.REDIS_PORT, 10),
+  host: process.env.CACHE_HOST,
+  port: parseInt(process.env.CACHE_PORT, 10),
 });
 
 redisClient.on('connect', () => {
-  logger.info('Connected to redis');
+  logger.info(
+    `Connected to cache (redis - ${process.env.CACHE_HOST}:${process.env.CACHE_PORT})`,
+  );
 });
 
 redisClient.on('error', error => {

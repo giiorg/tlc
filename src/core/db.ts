@@ -16,7 +16,9 @@ function getPoolConnection() {
     });
 
     pool.on('connect', () => {
-      logger.info('Connected to database');
+      logger.info(
+        `Connected to database (postgres - ${process.env.DB_HOST}:${process.env.DB_PORT})`,
+      );
     });
 
     pool.on('error', (err: Error, client: PoolClient) => {

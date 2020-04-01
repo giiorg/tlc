@@ -8,10 +8,15 @@ dotenv.config();
 import logger from './core/logger';
 import { MailerService } from './modules/auth/mailer.service';
 
-const queueStore = new Redis({ port: 6309 });
+const queueStore = new Redis({
+  host: process.env.QUEUE_HOST,
+  port: parseInt(process.env.QUEUE_PORT, 10),
+});
 
 queueStore.on('connect', () => {
-  logger.info('workers connected to queue store (redis:6309)');
+  logger.info(
+    'workers connected to queue store (redis - ${process.env.QUEUE_HOST}:${process.env.QUEUE_PORT})',
+  );
 });
 
 const queueName = 'emails';

@@ -12,7 +12,7 @@
   "dependencies": {
     "@elastic/elasticsearch": "^7.6.1",
     "@sendgrid/mail": "^6.5.5",
-    "apollo-server": "^2.11.0",
+    "apollo-server": "^2.14.2",
     "bcrypt": "^4.0.1",
     "bullmq": "^1.8.4",
     "class-transformer": "^0.2.3",
